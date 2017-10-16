@@ -80,6 +80,5 @@
         - ELF
         - ASCII 码表
         - POSIX
-    * 经典书籍
-        - [《Linux 内核 0.11 完全注释》](http://www.oldlinux.org/download/clk011c-3.0.pdf)
+    * [经典书籍](refs/books.md)
     * 重要网址
