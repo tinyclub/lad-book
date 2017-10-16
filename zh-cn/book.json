@@ -5,7 +5,9 @@
     "generator": "site",
     "plugins" : [ "disqus", "collapsible-menu", "diy-introduction"],
     "pluginsConfig": {
-        "introduction-text": "简介",
+        "diy-introduction": {
+             "introduction-text": "简介"
+        },
         "disqus": {
             "shortName": "tinylab"
         }
