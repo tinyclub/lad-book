@@ -3,11 +3,8 @@
     "language" : "zh-hans",
     "description": "组团学习历史版本的 Linux 内核并撰写学习笔记，汇总成册。",
     "generator": "site",
-    "plugins" : [ "disqus", "collapsible-menu", "diy-introduction"],
+    "plugins" : [ "disqus", "collapsible-menu" ],
     "pluginsConfig": {
-        "diy-introduction": {
-             "introduction-text": "简介"
-        },
         "disqus": {
             "shortName": "tinylab"
         }
@@ -17,7 +14,7 @@
             "项目首页": "http://tinylab.org/lad-book",
             "泰晓科技": "http://tinylab.org",
             "实验云台": "http://tinylab.cloud:6080",
-            "开源小店 < 捐助我们": "http://weidian.com/?userid=335178200"
+            "开源小店": "http://weidian.com/?userid=335178200"
         }
     },
     "title": "Linux 考古笔记"

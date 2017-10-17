@@ -2,11 +2,8 @@
     "author": "LAT: Linux Archaeological Team",
     "description": "Learning the historic Linux kernels and write down the notes",
     "generator": "site",
-    "plugins" : [ "disqus", "collapsible-menu", "diy-introduction" ],
+    "plugins" : [ "disqus", "collapsible-menu" ],
     "pluginsConfig": {
-        "diy-introduction": {
-             "introduction-text": "简介"
-        },
         "disqus": {
             "shortName": "tinylab"
         }
