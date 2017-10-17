@@ -15,7 +15,7 @@ view:
 read: view
 
 read-pdf:
-	chromium-browser book.pdf >/dev/null 2>&1 &
+	chromium-browser book*.pdf >/dev/null 2>&1 &
 
 read-html:
 	chromium-browser _book/index.html >/dev/null 2>&1 &
