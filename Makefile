@@ -4,6 +4,12 @@ all:
 pdf:
 	gitbook pdf
 
+serve:
+	gitbook serve > .gitbook-serve.log 2>&1 &
+
+view:
+	chromium-browser http://localhost:4000
+
 read-pdf:
 	chromium-browser book.pdf
 
@@ -16,4 +22,4 @@ clean:
 	@rm -rf _book
 
 distclean: clean
-	@rm book.pdf
+	@rm book*.pdf
