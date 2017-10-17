@@ -5,7 +5,7 @@ pdf:
 	gitbook pdf
 
 read-pdf:
-	evince book.pdf
+	chromium-browser book.pdf
 
 read: read-html
 
