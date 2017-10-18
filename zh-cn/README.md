@@ -13,7 +13,8 @@
 
 ## 报名
 
-欢迎各位致力于研究操作系统的同学们加入“考古队”，报名请通过微信号（xqwen13148023）联系这次考古行动的项目经理 Keven。
+欢迎各位致力于研究操作系统的同学们加入“考古队”，报名请通过扫描下方二维码联系这次考古行动的项目经理 Keven。
+
 
 ## 编译
 
@@ -35,3 +36,7 @@
 * [C 语言编程透视](http://tinylab.gitbooks.io/cbook/)
 * [Shell 编程范例](http://tinylab.gitbooks.io/shellbook/)
 * [嵌入式 Linux 知识库(eLinux.org 中文版)](http://tinylab.gitbooks.io/elinux/)
+
+## 二维码
+
+![wechat](./images/wechat/keven-wechat.jpg)
