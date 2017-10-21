@@ -10,7 +10,7 @@ serve:
 	gitbook serve > .gitbook-serve.log 2>&1 &
 
 view:
-	chromium-browser http://localhost:4000 >/dev/null 2>&1 &
+	chromium-browser http://localhost:4000/zh-cn >/dev/null 2>&1 &
 
 read: view
 
