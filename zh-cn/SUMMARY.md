@@ -24,7 +24,7 @@
         - Linux
         - Windows
         - Mac OSX
-    * 基本过程
+    * 实验过程
         - 编辑
         - 编译
         - 运行
