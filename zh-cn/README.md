@@ -7,10 +7,10 @@
 
 ## 简介
 
--   代码仓库：<https://github.com/tinyclub/lad-book>
--   在线阅读：<http://tinylab.gitbooks.io/lad-book>
--   项目首页：<http://tinylab.org/lad-book>
--   项目计划书: [考古队项目计划书](./old-linux-pm.md) 
+-   [代码仓库](https://github.com/tinyclub/lad-book)
+-   [在线阅读](http://tinylab.gitbooks.io/lad-book)
+-   [项目首页](http://tinylab.org/lad-book)
+-   [项目计划书](./PLAN.md) 
 
 ## 报名
 
