@@ -2,6 +2,8 @@
 
 * [本书简介](README.md)
 
+* [本书计划](plan.md)
+
 * [背景知识](background/README.md)
 
     * Linux 历史
