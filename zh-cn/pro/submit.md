@@ -40,31 +40,31 @@
 
 ### 章节命名
 
-	年-月-日-主题内容.md 
+年-月-日-主题内容.md 
 
-	**示例**
+**示例**
 
-	异常处理章节内容命令如下
+异常处理章节内容命令如下
 
-	2017-11-15-oldlinx-exception.md
+2017-11-15-oldlinx-exception.md
 
 ### 图片命名
 
-	和章节命名保持一致，如一个章节中有多个图片则采用下标的形式。
+和章节命名保持一致，如一个章节中有多个图片则采用下标的形式。
 
-	**示例**
+**示例**
 
-	2017-11-15-oldlinux-exceptions-0.jpg
+2017-11-15-oldlinux-exceptions-0.jpg
 
-	表示关于异常的第一篇文章
+表示关于异常的第一篇文章
 
 ### 制图工具
 
-	**本地工具**
+**本地工具**
 
 #### markdown 绘图
 
-	<font color=red>**LR Graph**</font>
+<font color=red>**LR Graph**</font>
 	```
 	graph LR
 	A-->B;
@@ -98,6 +98,7 @@
 
 ### 提交指南
 
-	[请点击演示链接]()
+[请点击演示链接]()
 
-> Lad-book Team 
+
+> Lad-book Team  
