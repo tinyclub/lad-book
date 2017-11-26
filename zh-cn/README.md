@@ -8,7 +8,7 @@
 ## 简介
 
 -   [代码仓库](https://github.com/tinyclub/lad-book)
--   [在线阅读](../)
+-   [在线阅读](./)
 -   [项目首页](http://tinylab.org/lad-book)
 -   [项目计划](plan.html)
 -   [提交规范](submit.html)
