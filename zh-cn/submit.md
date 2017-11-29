@@ -104,27 +104,61 @@
 
 - [Processon](https://www.processon.com/diagrams)
 
-### markdown 绘图
+### Markdown 绘图
 
-**LR Graph**
+下面仅演示三类图，更多用法请参考 [mermaidjs.github.io](https://mermaidjs.github.io/).
 
+#### LR Graph
+
+源码：
+
+    ```mermaid
     graph LR
     A-->B;
     B-->C;
     B-->D
     B-->E
+    ```
 
-**TD Graph**
+流程图：
 
+```mermaid
+    graph LR
+    A-->B;
+    B-->C;
+    B-->D
+    B-->E
+```
+
+#### TD Graph
+
+源码：
+
+
+    ```mermaid
     graph TD
     A-->B;
     B-->C;
     B-->D
     B-->E
+    ```
+
+流程图：
 
 
-**Sequence Diagrm**
+```mermaid
+    graph TD
+    A-->B;
+    B-->C;
+    B-->D
+    B-->E
+```
 
+#### Sequence Diagrm
+
+源码：
+
+    ```mermaid
     sequenceDiagram
     participant Alice
     participant Bob
@@ -136,6 +170,23 @@
     John-->Alice: Great!
     John->Bob: How about you?
     Bob-->John: Jolly good!
+    ```
+
+程序表：
+
+```mermaid
+    sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->John: Hello John, how are you?
+    loop Healthcheck
+    John->John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail...
+    John-->Alice: Great!
+    John->Bob: How about you?
+    Bob-->John: Jolly good!
+```
 
 ## 提交指南
 
