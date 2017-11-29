@@ -10,7 +10,8 @@
 -   [代码仓库](https://github.com/tinyclub/lad-book)
 -   [在线阅读](http://tinylab.gitbooks.io/lad-book)
 -   [项目首页](http://tinylab.org/lad-book)
--   [项目计划](http://tinylab.gitbooks.io/lad-book/zh-cn/plan.html)
+-   [项目计划](plan.html)
+-   [提交规范](submit.html)
 
 ## 报名
 
