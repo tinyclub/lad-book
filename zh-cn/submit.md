@@ -112,53 +112,53 @@
 
 源码：
 
-    ```mermaid
+    {% mermaid %}
     graph LR;
     A-->B;
     B-->C;
     B-->D
     B-->E
-    ```
+    {% endmermaid %}
 
 流程图：
 
-```mermaid
+{% mermaid %}
     graph LR;
     A-->B;
     B-->C;
     B-->D
     B-->E
-```
+{% endmermaid %}
 
 #### TD Graph
 
 源码：
 
 
-    ```mermaid
+    {% mermaid %}
     graph TD;
     A-->B;
     B-->C;
     B-->D
     B-->E
-    ```
+    {% endmermaid %}
 
 流程图：
 
 
-```mermaid
+{% mermaid %}
     graph TD;
     A-->B;
     B-->C;
     B-->D
     B-->E
-```
+{% endmermaid %}
 
 #### Sequence Diagrm
 
 源码：
 
-    ```mermaid
+    {% mermaid %}
     sequenceDiagram;
     participant Alice;
     participant Bob;
@@ -170,11 +170,11 @@
     John-->Alice: Great!;
     John->Bob: How about you?;
     Bob-->John: Jolly good!;
-    ```
+    {% endmermaid %}
 
 程序表：
 
-```mermaid
+{% mermaid %}
     sequenceDiagram;
     participant Alice;
     participant Bob;
@@ -186,7 +186,7 @@
     John-->Alice: Great!;
     John->Bob: How about you?;
     Bob-->John: Jolly good!
-```
+{% endmermaid %}
 
 ## 提交指南
 
