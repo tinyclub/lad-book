@@ -61,3 +61,10 @@ Linux的内核版本编号如下所示：
 ### 名称争议
 
 &nbsp; &nbsp; &nbsp; &nbsp;GNU计划的支持者与开发者，特别是其创立者理查德·斯托曼主张Linux应称为“GNU/Linux”较为恰当，因为此类操作系统使用了众多GNU程序，包含Bash（Shell程序）、库、编译器等等作为Linux内核上的系统包．Linux社区中的一些成员，如埃里克·雷蒙、林纳斯·托瓦兹等人，偏好Linux的名称，认为Linux朗朗上口，短而好记，拒绝使用“GNU/Linux”作为操作系统名称。并且认为Linux并不属于GNU计划的一部分．现在，有部分Linux发行版，如Debian，采用了“GNU/Linux”的称呼。
+
+**参考文献**
+
+1 赵炯. Linux 内核完全剖析[M]. 北京:机械工业出版社, 2016.
+2 新设计团队. Linux 内核设计的艺术：图解 Linux 操作系统架构设计与实现原理[M]. 北京:机械工业出版社, 2013.
+3 鸟哥. 鸟哥的 Linux 私房菜 基础学习篇[M]. 北京:人民邮电出版社, 2010.
+4 Linux[EB/OL]. https://zh.wikipedia.org/zh-cn/Linux.
