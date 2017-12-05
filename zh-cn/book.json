@@ -3,7 +3,7 @@
     "language" : "zh-hans",
     "description": "组团学习历史版本的 Linux 内核并撰写学习笔记，汇总成册。",
     "generator": "site",
-    "plugins" : [ "disqus", "collapsible-menu", "mermaid" ],
+    "plugins" : [ "disqus", "collapsible-menu" ],
     "pluginsConfig": {
         "disqus": {
             "shortName": "tinylab"
