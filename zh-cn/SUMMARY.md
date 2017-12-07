@@ -8,7 +8,7 @@
 
 * [背景知识](background/README.md)
 
-    * Linux 历史
+    * [Linux 历史](background/history.md)
     * 微机原理
     * 内核编程
         - 汇编语言
@@ -54,6 +54,7 @@
         - 文件系统
         - 堆栈用法
         - 系统调用
+	- [异常处理](kernel/exception.md)
     * 应用程序
     * 源码结构
     * 配置系统
