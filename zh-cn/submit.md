@@ -54,6 +54,7 @@
         * filesystem.md - 文件系统
         * stack.md - 堆栈用法
         * syscall.md - 系统调用
+        * exception.md - 异常处理
     * app.md - 应用程序
     * source.md - 源码结构
     * config.md- 配置系统
