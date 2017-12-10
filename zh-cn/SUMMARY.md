@@ -8,7 +8,7 @@
 
 * [背景知识](background/README.md)
 
-    * Linux 历史
+    * [Linux 历史](background/history.md)
     * 微机原理
     * 内核编程
         - 汇编语言
