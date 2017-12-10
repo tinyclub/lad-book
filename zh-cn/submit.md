@@ -48,13 +48,13 @@
     * arch.md  - 内核架构
     * core - 核心功能
         * interrupt.md - 中断机制
+        * exception.md - 异常处理
         * timer.md - 时钟管理
         * process.md - 进程管理
         * mm.md - 内存管理
         * filesystem.md - 文件系统
         * stack.md - 堆栈用法
         * syscall.md - 系统调用
-        * exception.md - 异常处理
     * app.md - 应用程序
     * source.md - 源码结构
     * config.md- 配置系统
