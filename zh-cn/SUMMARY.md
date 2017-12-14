@@ -46,9 +46,9 @@
 
     * 内核模式
     * 内核架构
-    * 核心功能
+    * [核心功能](kernel/core/README.md)
         - 中断机制
-        - 异常处理
+        - [异常处理](kernel/core/exception.md)
         - 时钟管理
         - 进程管理
         - 内存管理
