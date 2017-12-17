@@ -9,7 +9,9 @@
   文件系统初始化的过程就是，初始化这个布局的过程。根据mkfs.minix命令参数来初始化超级快，inode的位图，逻辑块位图，以及逻辑块。另外mini1.0文件系统中，将磁盘按照1KB的大小进行划分，也就是最小粒度是1KB。
   
  - 超级块在硬盘中存储的初始化信息，下面列出了超级快的结构体，后面的注释来说明初始化的数值。
+
 ```
+
 //include/linux/fs.h
 //struct super_block
 unsigned short s_ninodes; //inode数 
@@ -21,7 +23,9 @@ unsigned short s_firstdatazone;//数据区开始的第一个逻辑块号
 unsigned short s_log_zone_size;//每个逻辑块表示的磁盘块数[以2为底的对数]
 unsigned long s_max_size;//以字节表示的最大文件长度
 unsigned short s_magic; //文件系统魔术字
+
 ```               
+
  - 对超级块字段一一说明：
 1. s_ninodes:用来表示文件系统一共支持多少个inode节点，inode节点可以用户设置，也可以根据系统大小在mkfs来计算，但是最大不能超过65535个，这个字段初始值是:min(65535,用户设置，((is_nzones/3 + MINIX_INODES_PER_BLOCK - 1) & ~(MINIX_INODES_PER_BLOCK - 1)))，此时MINIX_INODES_PER_BLOCK仅仅包含inode在磁盘中存储的部分。
 2. s_nzones:用来表示总逻辑块数，他的初始值是磁盘大小除以1024。
@@ -33,7 +37,9 @@ unsigned short s_magic; //文件系统魔术字
 8. s_magic:minix1.0文件系统魔术字，初始化为0x137f。
  - inode在硬盘中存储的初始化信息，在系统初始化的时候至少会初始化一个inode，来表示最顶层的目录，下面列出了inode的结构体，后面的注释来说明初始化的数值。
 
+
 ```
+
 //include/linux/fs.h
 //struct m_inode
 unsigned short i_mode; //文件类型和属性(rwx位)
@@ -50,7 +56,9 @@ unsigned short i_zone[9]; //文件所占用磁盘上逻辑块号数组；zone[0]
     };共16个字节，这第一个逻辑块最开始内容全部是'\0',然后0-15个字节被修改为inode为1,name是'.'
     第16-31个字节inode为1,name是'..'  **/
 
+
 ```
+
  - 对inod块字段一一说明：
 1. i_mode:表示文件类型和属性(rwx位)，这个初始化为：S_IFDIR + 0755，目录且权限是0755。其中各个比特位的意义是，0-2:其他人权限，3-5:组内权限，6-8:宿主权限，9-11:执行时权限，12-15:文件的类型（包括FIFO文件，字符设备文件，目录文件，块设备文件，常规文件）
 2. i_uid:表示文件宿主的用户id，初始化为：执行mkfs.minix命令的用户id。
@@ -64,6 +72,7 @@ unsigned short i_zone[9]; //文件所占用磁盘上逻辑块号数组；zone[0]
  - 对目录项块字段一一说明
 
 ```
+
 include/linux/fs.h
 #define NAME_LEN 14
 #define ROOT_INO 1
@@ -73,19 +82,24 @@ struct dir_entry {
 	char name[NAME_LEN];
 };
 
+
 ```
 1. inode:表示这个目录项所指向的inode号。
 2. name:表示目录的名字，最长14个字符
 ## 初始化一个mini1.0文件系统进行分析
 本节通过初始化一个文件系统，查看文件中的数据并还原其中的数据结构。
  - 初始使用的工具
+
 ```
+
 $ mkfs.minix -V
 mkfs.minix，来自 util-linux 2.30.1
+
 ```
 - 初始化一个文件系统的过程
 
 ```
+
 #生成一个64M的文件
 $ dd if=/dev/zero of=64M.img bs=512 count=131072
 记录了131072+0 的读入
@@ -101,8 +115,10 @@ $ date && mkfs.minix -1 -n 14 64M.img
 Firstdatazone=696 (696)
 Zonesize=1024
 Maxsize=268966912
+
 ```
 - 查看文件系统内容，并逐一分析
+
 ```
 
 $ hexdump 64M.img
@@ -166,7 +182,9 @@ $ hexdump 64M.img
     - inode中放入了第一个目录的信息
     - inode块的起始位置是逻辑块位图最后一个块的下一个块。
 
+
 ```
+
 #查看当前执行命令用户的uid和gid
 $ id
 uid=1000(deviosyan) gid=1000(deviosyan) 组=1000(deviosyan),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),118(lpadmin),128(sambashare)
@@ -195,11 +213,14 @@ unsigned char i_nlinks; //连接数
                         //表示'.'和'..'这两个目录的链接
 unsigned short i_zone[9];//0x2b8=696,第一个数据区的逻辑块，也就是这个inode的目录内容记录在696这个块上。
 
+
 ```
 
 - 根据第一个逻辑块中的数据结合目录结构来翻译一下第一inode指向的内容:    
 
+
 ```
+
 //第一个inode数据放在数据区的第一个块
 00ae000:存储的第一个目录信息
 struct dir_entry {
@@ -227,6 +248,7 @@ $ cd ..
 $ pwd
 /
 //说明根目录的父目录就是本身
+
 
 ```
 ## 小结
