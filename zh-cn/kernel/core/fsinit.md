@@ -39,10 +39,9 @@ unsigned short s_magic; //文件系统魔术字
 8. s_magic:minix1.0文件系统魔术字，初始化为0x137f。
  - inode在硬盘中存储的初始化信息，在系统初始化的时候至少会初始化一个inode，来表示最顶层的目录，下面列出了inode的结构体，后面的注释来说明初始化的数值。
 
-
 ```
 
-# inode 结构体
+## inode 结构体
 
 //include/linux/fs.h
 //struct m_inode
@@ -60,7 +59,6 @@ unsigned short i_zone[9]; //文件所占用磁盘上逻辑块号数组；zone[0]
     };共16个字节，这第一个逻辑块最开始内容全部是'\0',然后0-15个字节被修改为inode为1,name是'.'
     第16-31个字节inode为1,name是'..'  **/
 
-
 ```
 
  - 对inod块字段一一说明：
@@ -77,7 +75,7 @@ unsigned short i_zone[9]; //文件所占用磁盘上逻辑块号数组；zone[0]
 
 ```
 
-# 目录项结构体
+## 目录项结构体
 
 include/linux/fs.h
 #define NAME_LEN 14
@@ -88,7 +86,6 @@ struct dir_entry {
 	char name[NAME_LEN];
 };
 
-
 ```
 1. inode:表示这个目录项所指向的inode号。
 2. name:表示目录的名字，最长14个字符
@@ -98,7 +95,7 @@ struct dir_entry {
 
 ```
 
-# 查看工具版本
+## 查看工具版本
 
 $ mkfs.minix -V
 mkfs.minix，来自 util-linux 2.30.1
@@ -108,14 +105,14 @@ mkfs.minix，来自 util-linux 2.30.1
 
 ```
 
-# 生成一个64M的文件
+## 生成一个64M的文件
 
 $ dd if=/dev/zero of=64M.img bs=512 count=131072
 记录了131072+0 的读入
 记录了131072+0 的写出
 67108864 bytes (67 MB, 64 MiB) copied, 0.278518 s, 241 MB/s
 
-# 这个版本的mkfs默认是创建minix2的fs，添加-n来创建minix1.0的fs
+## 这个版本的mkfs默认是创建minix2的fs，添加-n来创建minix1.0的fs
 
 $ date && mkfs.minix -1 -n 14 64M.img
 2017年 12月 07日 星期四 01:30:06 CST
@@ -130,7 +127,7 @@ Maxsize=268966912
 
 ```
 
-# 查看文件中的信息
+## 查看文件中的信息
 
 $ hexdump 64M.img
 0000000 0000 0000 0000 0000 0000 0000 0000 0000
@@ -161,6 +158,7 @@ $ hexdump 64M.img
 4000000
 
 ```
+
 首先根据第二节的知识，结合dump出的数据，我们知道一个minix1.0文件系统的分布图：
  
 | 引导块1KB | 超级快1KB | inode map 3KB | 逻辑块位图 8KB | inode块 | .. |数据块 |
@@ -196,12 +194,12 @@ $ hexdump 64M.img
 
 ```
 
-# 查看当前执行命令用户的uid和gid
+## 查看当前执行命令用户的uid和gid
 
 $ id
 uid=1000(deviosyan) gid=1000(deviosyan) 组=1000(deviosyan),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),118(lpadmin),128(sambashare)
 
-# 计算的unix时间的转换
+## 计算的unix时间的转换
 
 $ date -d @1512581406
 2017年 12月 07日 星期四 01:30:06 CST
@@ -225,7 +223,6 @@ unsigned char i_nlinks; //连接数
                         //初始化是2
                         //表示'.'和'..'这两个目录的链接
 unsigned short i_zone[9];//0x2b8=696,第一个数据区的逻辑块，也就是这个inode的目录内容记录在696这个块上。
-
 
 ```
 
@@ -262,12 +259,9 @@ $ pwd
 /
 //说明根目录的父目录就是本身
 
-
 ```
 ## 小结
 这个系列文章期望从用户使用文件系统角度，来对minix1.0进行分析。本文描述了一个干净的文件系统的生成后的样子，后续会继续从操作层面继续分析mount文件系统，umount文件系统，新增文件，操作文件(读,写,删除,关闭文件,执行一个文件）。从而详细的展示一个文件系统的生命周期。
-
-
 
 ## 参考资料
 
