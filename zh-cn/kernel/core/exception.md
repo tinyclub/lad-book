@@ -1,47 +1,53 @@
 # 异常处理
 
-在 Linux 0.11 的代码树中，内核异常处理的服务程序分别是 trap.c 以及 panic.c，trap.c 中通过中断将硬件的异常分别做了处理，panic 则实现了内核的异常处理接口。
+在 Linux 0.11 的代码树中，内核异常处理的服务程序分别是 trap.c 和 panic.c，trap.c 负责处理硬件异常，panic.c 则实现了内核的异常处理接口。
 
-上述中我们提到了中断和异常， 那么两者有什么异同呢？
-从理论的角度我们可以笼统的说中断是指的中央处理器(CPU)对系统发生某个事情后作出的一种反应，异常的定义没有明确的规定，不同的体系架构的定义有一些差异，不过大体上基本认为异常是由于软件造成的。
+上面提到了中断和异常，那么两者有什么异同呢？
 
-一般情况下，一个完整的可用操作系统由4部分组成。分别是硬件、操作系统内核、操作系统服务以及用户应用程序。
-当前 tree 是 Linus 基于 Intel 的 386 兼容机，其 CPU 为80386，想一下，假如你是 Linus，你要为你的操作系统来适配 386 兼容机，现在你要完成异常处理部分，你应该做什么？
-答案毋庸置疑吧，所以具体关于中断和异常的处理我们来看看CPU手册中是如何描述的。那么我们按照一个正常开发流程去模拟当前 Linus 是如何开发异常处理模块的。
+从理论的角度我们可以笼统的说中断是指中央处理器（CPU）对系统发生某个事情后作出的一种反应，异常的定义没有明确的规定，不同的体系架构的定义有一些差异，不过大体上可以认为异常是由于软件造成的。
+
+一般情况下，一个完整的可用操作系统由 4 部分组成。分别是硬件、操作系统内核、操作系统服务以及用户应用程序。
+
+当前 Linux 0.11 代码树是 Linus 基于 Intel 的 386 兼容机编写的。其 CPU 为80386，想一下，假如你是 Linus，你要为你的操作系统来适配 386 兼容机，现在你要完成异常处理部分，你应该做什么？
+
+答案毋庸置疑吧，所以具体关于中断和异常的处理我们来看看 CPU 手册中是如何描述的。那么，我们先按照一个正常开发流程去模拟当前 Linus 是如何开发异常处理模块的。
 
 ## 80386
 
-在 i386 的数据手册中， 有一章节描述了中断和异常。
+在 i386 的数据手册中，有一章节描述了中断和异常。
 
 原文是这么描述的:
 
-The 80386 has two mechanisms for interrupting program execution:
-
-    1. Exceptions are synchronous events that are the responses of the CPU to 
-	certain conditions detected during the execution of an instruction.
-
-    2. Interrupts are asynchronous events.
-
-Interrupts and exceptions are alike in that both cause the processor to temporarily suspend its present program execution in order to execute a program of higher priority.
-The major distinction between these two kinds of interrupts is their origin. An exception is always reproducible by re-executing with the program and data that caused the exception, whereas an interrupt is generally independent of the currently executing program.
-
-Application programmers are not normally concerned with servicing interrupts. More information on interrupts for systems programmers may be found in Chapter 9. Certain exceptions, however,are of interest to applications programmers,and many operating systems give applications programs the opportunity to service these exceptions. However,the operating system itself defines the interface between the applications programs and the exception mechanism of the 80386.
+> The 80386 has two mechanisms for interrupting program execution:
+>
+>     1. Exceptions are synchronous events that are the responses of the CPU to
+> 	certain conditions detected during the execution of an instruction.
+>
+>     2. Interrupts are asynchronous events.
+>
+> Interrupts and exceptions are alike in that both cause the processor to temporarily suspend its present program execution in order to execute a program of higher priority.
+>
+> The major distinction between these two kinds of interrupts is their origin. An exception is always reproducible by re-executing with the program and data that caused the exception, whereas an interrupt is generally independent of the currently executing program.
+>
+> Application programmers are not normally concerned with servicing interrupts. More information on interrupts for systems programmers may be found in Chapter 9. Certain exceptions, however,are of interest to applications programmers,and many operating systems give applications programs the opportunity to service these exceptions. However,the operating system itself defines the interface between the applications programs and the exception mechanism of the 80386.
 
 看手册找重点，我们来总结一下上述描述的一些关键点。
 
 - 80386 为中断程序执行提供了两种机制
-    - 异常是同步事件，在指令执行的过程中由CPU检测并响应。
+    - 异常是同步事件，用于响应指令执行过程检测到的特定条件。
     - 中断是异常事件，是由外部设备触发。
+
 - 中断和异常异同点
-    - 两者都会导致是的 CPU 暂停处理正在处理的任务，去处理优先级更高的任务。
-    - 一个异常在执行导致异常的程序和数据的时候是可以被复制的。
-    - 中断通常是独立于当前执行的程序的。
-- 应用程序程序员通常不关心服务的中断。
-- 应用程序程序员只需使用操作系统提供的应用接口，这些接口的使用不当可能也会产生异常。
+    - 两者都会导致的是：CPU 暂停当前程序的执行，去处理优先级更高的程序。
+    - 异常可以重复触发，只要用同样的程序和数据反复执行。
+    - 中断则不然，它通常是独立于当前执行的程序的。
 
-关于中断机制的详细内容，本章节不在赘述。请阅读本书中断处理机制章节内容。
+- 应用开发人员通常不关心服务的中断。
+- 应用开发人员只需使用操作系统提供的应用接口，这些接口的使用不当可能也会产生异常。
 
-通过上述我们大抵了解了当前 80386 实现了的异常功能点。那么我们继续阅读手册，看详细的提供了哪些事件?
+关于中断机制的详细内容，本章节不再赘述。请阅读本书中断处理机制章节内容。
+
+上面大抵描述了 80386 的异常和中断概念。接下来继续阅读手册，看看 80386 到底提供了哪些详细的异常事件?
 
 ## 80386 异常向量表
 
@@ -66,12 +72,13 @@ Application programmers are not normally concerned with servicing interrupts. Mo
 |16|Coprocessor Error|协处理器检测到非法操作|
 |17-32|(reserved)|保留位|
 
-上述表格便是 80386 手册中给出的所有的异常向量，知道了每个异常的偏移地址，那么我们下面可以为内核写一个异常处理模块了，等等。好像还少一点什么？ 对，怎么访问向量表呢？
+上述表格便是 80386 手册中给出的所有异常向量，知道了每个异常的偏移地址，那么下面可以为内核写一个异常处理模块了，等等。好像还少一点什么？对，怎么访问向量表呢？
 
 ## 访问异常向量表
 
-整个CPU 域地址空间的划分请参考内存管理章节。
-通过上述章节我们可以很清晰的获取CPU 地址域的布局，并且知道了异常向量的 Base Addr。
+整个 CPU 域地址空间的划分请参考内存管理章节。
+
+通过上述章节我们可以很清晰的获取 CPU 地址域的布局，并且知道了异常向量的 Base Addr。
 
 ```
 val = ;
@@ -80,7 +87,7 @@ val = ;
 
 ## 设计对应的内核数据结构
 
-有了访问地址，异常向量偏移，那么我们就可以设计代码框架了。我想当时 Linus 应该是这么想的： 我一直在研究 Unix 操作系统设计，所以我是否也可以将信号用到 Linux 操作系统中呢， 可以把每个异常对应一个信号，用来做全局通知链，这样一些无需 CPU reset 解决的，可以做一下告警，告知开发应用程序或者驱动的程序员该如何规范使用当前芯片。 好吧，我要开干了！！！
+有了访问地址，异常向量偏移，那么我们就可以设计代码框架了。我想当时 Linus 应该是这么想的：我一直在研究 Unix 操作系统设计，所以我是否也可以将信号用到 Linux 操作系统中呢，可以把每个异常对应一个信号，用来做全局通知链，这样一些无需 CPU reset 解决的，可以做一下告警，告知开发应用程序或者驱动的程序员该如何规范使用当前芯片。好吧，我要开干了！！！
 
 ## Linus 编写的异常代码
 
@@ -102,7 +109,7 @@ val = ;
  * 后续我们将扩展使其可以杀死一些令人厌恶的进程（或许可以给它一个信号，但是尽量还是将其杀死）。
  */
 
-#include <string.h> 
+#include <string.h>
 
 #include <linux/head.h>
 #include <linux/sched.h>
@@ -117,7 +124,7 @@ val = ;
  * 如果想指定寄存器（例如eax），那么我们可以把该句写成register char __res asm("ax")；
  * 取段seg中地址addr处的一个字节。
  * 参数：seg - 段选择符；addr - 段内指定地址。
- * 输出：%0 - eax (__res)；输入：%1 - eax (seg)；%2 - 内存地址 (*(addr)) 
+ * 输出：%0 - eax (__res)；输入：%1 - eax (seg)；%2 - 内存地址 (*(addr))
  */
 
 #define get_seg_byte(seg,addr) ({ \
@@ -336,7 +343,7 @@ void trap_init(void)
 
 ## panic
 
-异常接口已经处理完毕，基本上触发上述事件，都有做处理。等等，假如出现很严重的事情怎么办呢？已经完全影响系统的关键部件的完整度了。Linus 当时可能是这么想的：我需要做一些事情，告知系统以及管理员，告知他们操作系统挂掉了，好吧，我先简单做一个接口吧，起个什么名字呢？ panic，这个名字好像不错，就叫它吧。接口我先简单处理一下，假如我发现当前进程是 0 号进程，那么我就认为操作系统还没有挂载文件系统，是 swapper 进程出错了，反之不是的话我需要同步一下文件系统，然后制造死机吧(死循环)。
+异常接口已经处理完毕，基本上触发上述事件，都有做处理。等等，假如出现很严重的事情怎么办呢？已经完全影响系统的关键部件的完整度了。Linus 当时可能是这么想的：我需要做一些事情，告知系统以及管理员，告知他们操作系统挂掉了，好吧，我先简单做一个接口吧，起个什么名字呢？panic，这个名字好像不错，就叫它吧。接口我先简单处理一下，假如我发现当前进程是 0 号进程，那么我就认为操作系统还没有挂载文件系统，是 swapper 进程出错了，反之不是的话我需要同步一下文件系统，然后制造死机吧（死循环）。
 
 ## Linus 编写的panic 代码
 
@@ -378,12 +385,12 @@ void panic(const char * s)
 
 ## 测试
 
-代码写完了，按照软件开发流程，下面就需要测试了， 让我们编写测试例触发上述异常(有的无法触发需要硬件配置)，来验证效果吧。
-由于篇幅较长， 本书这里只简单演示一个测试用例， 更多的测试用例，请在本书所带的资料中获取。
+代码写完了，按照软件开发流程，下面就需要测试了，让我们编写测试用例触发上述异常（有的无法触发需要硬件配置），来验证效果吧。
+由于篇幅较长，本书这里只简单演示一个测试用例，更多的测试用例，请在本书所带的资料中获取。
 
 我们来验证堆栈溢出后内核发生什么？
 
-### 测试例代码
+### 测试代码
 
 ```
 
